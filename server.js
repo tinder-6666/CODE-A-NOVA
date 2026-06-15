@@ -10,16 +10,34 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Home route
+// Home Route
 app.get("/", (req, res) => {
   res.send("Backend Running Successfully 🚀");
 });
 
+// Basic REST API - GET
+app.get("/api", (req, res) => {
+  res.json({
+    message: "Welcome to Basic REST API"
+  });
+});
+
+// Basic REST API - POST
+app.post("/api/data", (req, res) => {
+  const data = req.body;
+
+  res.json({
+    message: "Data received successfully",
+    data: data
+  });
+});
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch((err) => console.log(err));
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
+// User Routes
 app.use("/api/users", require("./routes/userRoutes"));
 
 const PORT = 5000;
